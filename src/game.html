@@ -25,6 +25,7 @@
       var paddle1Y = 150;
       // For paddle 2
       var paddle2Y = 150;
+      const PADDLE_THICKNESS = 10;
       const PADDLE_HEIGHT = 100;
 
       // NOW DEFINE THE FUNCTION THAT CAL THE MOUSE POSITION AND ASSIGN THE Y COORD to PADDLE.
@@ -110,10 +111,16 @@
         colorRect(270, 0, canvas.width, canvas.height, "black");
         // Draw a green player paddle Player 1
 
-        colorRect(270, paddle1Y, 10, PADDLE_HEIGHT, "green");
+        colorRect(270, paddle1Y, PADDLE_THICKNESS, PADDLE_HEIGHT, "green");
         // Draw a blue player paddle  Player 2
 
-        colorRect(1060, paddle2Y, 10, PADDLE_HEIGHT, "blue");
+        colorRect(
+          canvas.width - PADDLE_THICKNESS,
+          paddle2Y,
+          PADDLE_THICKNESS,
+          PADDLE_HEIGHT,
+          "blue"
+        );
         // Draw the ball , now we need to make it round
 
         // colorRect(270+ballX,200,10,10,'red');
