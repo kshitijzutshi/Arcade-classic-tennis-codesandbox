@@ -59,8 +59,14 @@
         // Now the FUNCTION TO CALL THE MOVEMOUSE FUNCTION
         canvas.addEventListener("mousemove", function(evt) {
           var mousePos = calculateMousePos(evt);
-          paddle1Y = mousePos.y - PADDLE_HEIGHT / 2;
-          paddle2Y = mousePos.y - PADDLE_HEIGHT / 2;
+          if (ballX < canvas.width / 2) {
+            paddle1Y = mousePos.y - PADDLE_HEIGHT / 2;
+          }
+          // paddle1Y = mousePos.y -  (PADDLE_HEIGHT/2);
+          else if (ballX > canvas.width / 2) {
+            paddle2Y = mousePos.y - PADDLE_HEIGHT / 2;
+          }
+          // paddle2Y = mousePos.y -  (PADDLE_HEIGHT/2);
           // console.log(mousePos.y);
         });
         // console.log("after");
