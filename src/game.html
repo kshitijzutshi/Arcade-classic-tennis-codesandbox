@@ -21,8 +21,10 @@
       var ballSpeedX = 10;
       var ballSpeedY = 4;
 
-      // Now to have the paddle to move w.r.t mouse pointer
+      // Now to have the paddle1 to move w.r.t mouse pointer
       var paddle1Y = 150;
+      // For paddle 2
+      var paddle2Y = 150;
       const PADDLE_HEIGHT = 100;
 
       // NOW DEFINE THE FUNCTION THAT CAL THE MOUSE POSITION AND ASSIGN THE Y COORD to PADDLE.
@@ -57,10 +59,18 @@
         canvas.addEventListener("mousemove", function(evt) {
           var mousePos = calculateMousePos(evt);
           paddle1Y = mousePos.y - PADDLE_HEIGHT / 2;
+          paddle2Y = mousePos.y - PADDLE_HEIGHT / 2;
           // console.log(mousePos.y);
         });
         // console.log("after");
       };
+
+      // function to reset the ball
+      function ballReset() {
+        ballSpeedX = -ballSpeedX;
+        ballX = canvas.width / 2;
+        ballY = canvas.height / 2;
+      }
 
       function moveEverything() {
         ballX = ballX + ballSpeedX;
@@ -70,7 +80,20 @@
           ballSpeedX = -ballSpeedX;
         }
         if (ballX < 10) {
-          ballSpeedX = -ballSpeedX;
+          // ballSpeedX = -ballSpeedX; No need to add here as now we added this in ballReset() function.
+
+          // NOW ADD FUNCTIONALITY OF BOUNCING THE BALL IF ON PADDDLE : Note paddle1Y is top coord of paddle and paddle1y+paddleheight is bottom
+          if (ballY > paddle1Y && ballY < paddle1Y + PADDLE_HEIGHT) {
+            ballSpeedX = -ballSpeedX;
+          } else {
+            ballReset();
+          }
+
+          if (ballY > paddle2Y && ballY < paddle2Y + PADDLE_HEIGHT) {
+            ballSpeedX = -ballSpeedX;
+          } else {
+            ballReset();
+          }
         }
 
         if (ballY > canvas.height) {
@@ -87,10 +110,10 @@
         colorRect(270, 0, canvas.width, canvas.height, "black");
         // Draw a green player paddle Player 1
 
-        colorRect(270, paddle1Y, 10, 100, "green");
+        colorRect(270, paddle1Y, 10, PADDLE_HEIGHT, "green");
         // Draw a blue player paddle  Player 2
 
-        colorRect(1060, 150, 10, 100, "blue");
+        colorRect(1060, paddle2Y, 10, PADDLE_HEIGHT, "blue");
         // Draw the ball , now we need to make it round
 
         // colorRect(270+ballX,200,10,10,'red');
