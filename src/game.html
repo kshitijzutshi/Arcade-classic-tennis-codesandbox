@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Static Template</title>
+  </head>
+  <body>
+    <br />
+    <center><b> Tennis Tetris</b></center>
+    <br /><br />
+
+    <canvas id="gameCanvas" width="1070" height="600"></canvas>
+
+    <script type="text/javascript">
+      var canvas;
+      var canvasContext;
+      var ballX = 50;
+      var ballY = 200; //or 200
+      var ballSpeedX = 10;
+      var ballSpeedY = 4;
+
+      // Now to have the paddle to move w.r.t mouse pointer
+      var paddle1Y = 150;
+      const PADDLE_HEIGHT = 100;
+
+      // NOW DEFINE THE FUNCTION THAT CAL THE MOUSE POSITION AND ASSIGN THE Y COORD to PADDLE.
+      function calculateMousePos(evt) {
+        // console.log("In calculateMousePos function");
+        var rect = canvas.getBoundingClientRect();
+        var root = document.documentElement;
+        var mouseX = evt.clientX - rect.left - root.scrollLeft;
+        var mouseY = evt.clientY - rect.top - root.scrollTop;
+        return {
+          x: mouseX,
+          y: mouseY
+        };
+      }
+
+      window.onload = function() {
+        console.log("Hellew World!");
+        canvas = document.getElementById("gameCanvas");
+        canvasContext = canvas.getContext("2d");
+
+        // drawEverything();
+        // drawEverything();
+        // drawEverything();
+        var framesPerSecond = 30;
+
+        setInterval(function() {
+          moveEverything();
+          drawEverything();
+        }, 1000 / framesPerSecond);
+        // console.log("before");
+        // Now the FUNCTION TO CALL THE MOVEMOUSE FUNCTION
+        canvas.addEventListener("mousemove", function(evt) {
+          var mousePos = calculateMousePos(evt);
+          paddle1Y = mousePos.y - PADDLE_HEIGHT / 2;
+          // console.log(mousePos.y);
+        });
+        // console.log("after");
+      };
+
+      function moveEverything() {
+        ballX = ballX + ballSpeedX;
+        ballY = ballY + ballSpeedY;
+
+        if (ballX > canvas.width - 290) {
+          ballSpeedX = -ballSpeedX;
+        }
+        if (ballX < 10) {
+          ballSpeedX = -ballSpeedX;
+        }
+
+        if (ballY > canvas.height) {
+          ballSpeedY = -ballSpeedY;
+        }
+        if (ballY < 10) {
+          ballSpeedY = -ballSpeedY;
+        }
+      }
+
+      function drawEverything() {
+        console.log("drawEverything called");
+
+        colorRect(270, 0, canvas.width, canvas.height, "black");
+        // Draw a green player paddle Player 1
+
+        colorRect(270, paddle1Y, 10, 100, "green");
+        // Draw a blue player paddle  Player 2
+
+        colorRect(1060, 150, 10, 100, "blue");
+        // Draw the ball , now we need to make it round
+
+        // colorRect(270+ballX,200,10,10,'red');
+
+        // TO MAKE RED BALL
+
+        // canvasContext.arc(280+ballX, 200, 10, 0, Math.PI*2, true);
+        // canvasContext.fill();
+        colorCircle(280 + ballX, ballY, 10, "red");
+      }
+
+      function colorRect(leftX, topY, width, height, drawColor) {
+        canvasContext.fillStyle = drawColor;
+        canvasContext.fillRect(leftX, topY, width, height);
+      }
+
+      function colorCircle(centreX, centreY, radius, drawColor) {
+        canvasContext.fillStyle = drawColor;
+        canvasContext.beginPath();
+        // Parameters 1=> start point, 2=> centre start point, 3=> radius of circle, 4 => how many radians? pi is half circle, 2*pi is full, 5=> clockwise rotation of arc true, else false
+        canvasContext.arc(centreX, centreY, radius, 0, Math.PI * 2, true);
+        canvasContext.fill();
+      }
+    </script>
+  </body>
+</html>
