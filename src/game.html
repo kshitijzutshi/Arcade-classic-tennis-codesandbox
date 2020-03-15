@@ -17,16 +17,19 @@
       var canvas;
       var canvasContext;
       var ballX = 50;
-      var ballY = 200; //or 200
+      var ballY = 50; //or 200
       var ballSpeedX = 10;
       var ballSpeedY = 4;
 
       // Now to have the paddle1 to move w.r.t mouse pointer
-      var paddle1Y = 150;
+      var paddle1Y = 250;
       // For paddle 2
-      var paddle2Y = 150;
+      var paddle2Y = 250;
       const PADDLE_THICKNESS = 10;
       const PADDLE_HEIGHT = 100;
+
+      var player1Score = 0;
+      var player2Score = 0;
 
       // NOW DEFINE THE FUNCTION THAT CAL THE MOUSE POSITION AND ASSIGN THE Y COORD to PADDLE.
       function calculateMousePos(evt) {
@@ -74,9 +77,14 @@
 
       // function to have a computer play the next player
       function computerMovement() {
-        if (paddle2Y < ballY) {
+        // This alone makes paddle jittery and we need to use the centre of the paddle to move.
+
+        // Now there is too much jitter coz each time the balllY value is closer its constantly -+6 the value of paddle2Y. So we keep threshold of 35 pixels below and above centre
+        var paddle2YCentre = paddle2Y + PADDLE_HEIGHT / 2;
+
+        if (paddle2YCentre < ballY - 35) {
           paddle2Y += 6;
-        } else {
+        } else if (paddle2YCentre > ballY + 35) {
           paddle2Y -= 6;
         }
       }
@@ -89,6 +97,8 @@
       }
 
       function moveEverything() {
+        computerMovement();
+
         ballX = ballX + ballSpeedX;
         ballY = ballY + ballSpeedY;
 
@@ -103,14 +113,17 @@
             ballSpeedX = -ballSpeedX;
           } else {
             ballReset();
+            player1Score++;
           }
 
-          // if(ballY > paddle2Y && ballY < paddle2Y+PADDLE_HEIGHT){
-          // 	ballSpeedX = -ballSpeedX;
-          // }
-          // else{
-          // 	ballReset();
-          // }
+          if (ballX > canvas.width) {
+            if (ballY > paddle2Y && ballY < paddle2Y + PADDLE_HEIGHT) {
+              ballSpeedX = -ballSpeedX;
+            } else {
+              ballReset();
+              player2Score++;
+            }
+          }
         }
 
         if (ballY > canvas.height) {
@@ -146,6 +159,10 @@
         // canvasContext.arc(280+ballX, 200, 10, 0, Math.PI*2, true);
         // canvasContext.fill();
         colorCircle(280 + ballX, ballY, 10, "red");
+        canvasContext.fillText("player1", 370, 80);
+        canvasContext.fillText(player1Score, 370, 100);
+        canvasContext.fillText("player2", canvas.width - 120, 80);
+        canvasContext.fillText(player2Score, canvas.width - 120, 100);
       }
 
       function colorRect(leftX, topY, width, height, drawColor) {
