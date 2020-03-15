@@ -72,6 +72,15 @@
         // console.log("after");
       };
 
+      // function to have a computer play the next player
+      function computerMovement() {
+        if (paddle2Y < ballY) {
+          paddle2Y += 6;
+        } else {
+          paddle2Y -= 6;
+        }
+      }
+
       // function to reset the ball
       function ballReset() {
         ballSpeedX = -ballSpeedX;
@@ -96,11 +105,12 @@
             ballReset();
           }
 
-          if (ballY > paddle2Y && ballY < paddle2Y + PADDLE_HEIGHT) {
-            ballSpeedX = -ballSpeedX;
-          } else {
-            ballReset();
-          }
+          // if(ballY > paddle2Y && ballY < paddle2Y+PADDLE_HEIGHT){
+          // 	ballSpeedX = -ballSpeedX;
+          // }
+          // else{
+          // 	ballReset();
+          // }
         }
 
         if (ballY > canvas.height) {
