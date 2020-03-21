@@ -1,7 +1,7 @@
 {
-  "name": "tennis-paddle-arcade",
+  "name": "neon-paddle",
   "version": "0.0.5",
-  "description": null,
+  "description": "",
   "main": "index.html",
   "scripts": {
     "start": "serve",

@@ -94,7 +94,7 @@
         ballSpeedX = -ballSpeedX;
         ballX = canvas.width / 2;
         ballY = canvas.height / 2;
-      }
+      } //// no change here, shown for context before function
 
       function moveEverything() {
         computerMovement();
@@ -102,9 +102,9 @@
         ballX = ballX + ballSpeedX;
         ballY = ballY + ballSpeedY;
 
-        if (ballX > canvas.width - 290) {
-          ballSpeedX = -ballSpeedX;
-        }
+        /*if (ballX > canvas.width - 290) { //// remove these 3 lines, replaced by new logic below
+            ballSpeedX = -ballSpeedX;
+        }*/
         if (ballX < 10) {
           // ballSpeedX = -ballSpeedX; No need to add here as now we added this in ballReset() function.
 
@@ -120,16 +120,21 @@
             ballReset();
             player2Score++;
           }
+        } //// here is where if (ballX < 10) should end, add } here
 
-          if (ballX > canvas.width) {
-            if (ballY > paddle2Y && ballY < paddle2Y + PADDLE_HEIGHT) {
-              ballSpeedX = -ballSpeedX;
-            } else {
-              ballReset();
-              player1Score++;
-            }
+        if (ballX > canvas.width - 290) {
+          if (ballY > paddle2Y && ballY < paddle2Y + PADDLE_HEIGHT) {
+            ballSpeedX = -ballSpeedX;
+
+            var deltaY = ballY - (paddle2Y + PADDLE_HEIGHT / 2);
+            ballSpeedY = deltaY * 0.35;
+          } else {
+            ballReset();
+            player1Score++;
           }
         }
+
+        //// } // this was ending if (ballX < 10) too low, remove it
 
         if (ballY > canvas.height) {
           ballSpeedY = -ballSpeedY;
@@ -140,6 +145,7 @@
       }
 
       function drawEverything() {
+        //// no change here, shown for context
         console.log("drawEverything called");
 
         colorRect(270, 0, canvas.width, canvas.height, "black");
